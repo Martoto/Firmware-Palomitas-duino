@@ -6,6 +6,7 @@ Servo cServo;
 unsigned long StartTime;
 const unsigned long CookT = 60000;
 const unsigned int cPerServ = 2;
+const unsigned int conf = 10;
 
 //pins
 int kernelServo = 3;
@@ -59,29 +60,27 @@ void setup(){
   lcd.print("Pronta");*/
 }
 
-void loop(){
-  if (!hasK()) {
-    turnOffPan();
-    return;
-  }
-  full = true;
+void loop(){ 
+  
   if (!full) {
-      dispenseKernel(3);  
+      dispenseKernel(1);  
       full = true;
   }
   heatCorn();
   if (!hasCup()) {
-    digitalWrite(LED_BUILTIN, HIGH);
+    digitalWrite(cLed, LOW);
     turnOffPan();
   } else {
-    digitalWrite(LED_BUILTIN, LOW);
+    digitalWrite(cLed, HIGH);
     heatCorn(); 
   }
-   if(!hasSoda()){
-    digitalWrite(sLed, HIGH);
-    } else {
-      digitalWrite(sLed, LOW);
-    }
+  if(!hasSoda()){
+    digitalWrite(sLed, LOW);
+  } else {
+      dispenseCan();
+      digitalWrite(sLed, HIGH );
+      delay(200);
+  }
 }
 
 long manageCooking (){
@@ -119,42 +118,36 @@ long manageCooking (){
 }
 
 bool hasCup() {
-  if (digitalRead(cupSensor) == LOW) {
+  if (digitalRead(cupSensor) == HIGH && csConf < conf + 1) {
     //cup is in place
     csConf++;
-  } else {
+  } else if (csConf > 0) {
     csConf--;
   }
-  if (csConf < 0) {
-    csConf = 0;
-  }
-  return csConf > 10 ? true : false;
+  
+  return csConf > conf ? true : false;
 }
 
 bool hasK() {
-  if (digitalRead(kernelSensor) == LOW) {
+  if (digitalRead(kernelSensor) == HIGH && ksConf < conf + 1) {
     //cup is in place
     ksConf++;
-  } else {
+  } else if (ksConf > 0) {
     ksConf--;
   }
-  if (ksConf < 0) {
-    ksConf = 0;
-  }
-  return ksConf > 10 ? true : false;
+  
+  return ksConf > conf ? true : false;
 }
 
 bool hasSoda() {
-  if (digitalRead(canSensor) == LOW) {
+  if (digitalRead(canSensor) == HIGH && rsConf < conf + 1) {
     //cup is in place
     rsConf++;
-  } else {
+  } else if (rsConf > 0) {
     rsConf--;
   }
-  if (rsConf < 0) {
-      rsConf = 0;
-  }
-  return rsConf > 10 ? true : false;
+  
+  return rsConf > conf ? true : false;
 }
 
 void dispenseKernel(int multiplier){

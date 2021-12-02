@@ -10,19 +10,23 @@ const unsigned int cPerServ = 2;
 //pins
 int kernelServo = 3;
 int canServo = 2;
-int relayOut = 53;
+int relayOut = 7;
 //sensor input pins
-int cupSensor = 24;
-int kernelSensor = 26;
-int canSensor = 42 ;
+int cupSensor = 6;
+int kernelSensor = 5;
+int canSensor = 4;
+//led out pins
+int kLed = 8;
+int sLed = 9;
+int cLed = 10;
 //lcd pins
-const int pin_RS = 8; 
-const int pin_EN = 9; 
-const int pin_d4 = 4; 
-const int pin_d5 = 5; 
-const int pin_d6 = 6; 
-const int pin_d7 = 7; 
-const int pin_BL = 10; 
+const int pin_RS = 11; 
+const int pin_EN = 11; 
+const int pin_d4 = 11; 
+const int pin_d5 = 11; 
+const int pin_d6 = 11;
+const int pin_d7 = 11; 
+const int pin_BL = 11; 
 LiquidCrystal lcd( pin_RS,  pin_EN,  pin_d4,  pin_d5,  pin_d6,  pin_d7);
 
 //input
@@ -44,47 +48,57 @@ void setup(){
   pinMode(cupSensor, INPUT);
   pinMode(kernelSensor, INPUT);
   pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(kLed, OUTPUT);
+  pinMode(cLed, OUTPUT);
+  pinMode(sLed, OUTPUT);
   //lcd
-  lcd.begin(16, 2);
+  /*lcd.begin(16, 2);
   lcd.setCursor(0,0);
   lcd.print("Palomitas");
   lcd.setCursor(0,1);
-  lcd.print("Pronta");
+  lcd.print("Pronta");*/
 }
 
 void loop(){
-  if (Serial.available() > 0) {
-    inByte = Serial.read();
-    Serial.print("in: ");
-    Serial.println(inByte, DEC);
+  if (!hasK()) {
+    turnOffPan();
+    return;
   }
-  manageCooking();
-  
-  
+  full = true;
+  if (!full) {
+      dispenseKernel(3);  
+      full = true;
+  }
+  heatCorn();
+  if (!hasCup()) {
+    digitalWrite(LED_BUILTIN, HIGH);
+    turnOffPan();
+  } else {
+    digitalWrite(LED_BUILTIN, LOW);
+    heatCorn(); 
+  }
+   if(!hasSoda()){
+    digitalWrite(sLed, HIGH);
+    } else {
+      digitalWrite(sLed, LOW);
+    }
 }
 
 long manageCooking (){
   if (!full && !cooking && inByte == 'c') {
-    
-    if (!hasK) {
-      lcd.print("Estamos sem milho!")
+    if (!hasK()) {
+      digitalWrite(kLed, HIGH);
     } else {
-      if (!hasCup) {
-      lcd.print("Insira o copo")
-    } else {
-      
-    
+      digitalWrite(kLed, LOW);
+    }
+  } else {
       //start cooking when received order 
      dispenseKernel(1);
      full = true;
      heatCorn();
      lcd.print("Preparando");
      StartTime = millis(); 
-     }
-     
     }
-    
-  }
   if (!hasCup()) {
     //when cup is removed
     Serial.print("tirou copo");
@@ -109,6 +123,9 @@ bool hasCup() {
     //cup is in place
     csConf++;
   } else {
+    csConf--;
+  }
+  if (csConf < 0) {
     csConf = 0;
   }
   return csConf > 10 ? true : false;
@@ -119,6 +136,9 @@ bool hasK() {
     //cup is in place
     ksConf++;
   } else {
+    ksConf--;
+  }
+  if (ksConf < 0) {
     ksConf = 0;
   }
   return ksConf > 10 ? true : false;
@@ -129,7 +149,10 @@ bool hasSoda() {
     //cup is in place
     rsConf++;
   } else {
-    rsConf = 0;
+    rsConf--;
+  }
+  if (rsConf < 0) {
+      rsConf = 0;
   }
   return rsConf > 10 ? true : false;
 }

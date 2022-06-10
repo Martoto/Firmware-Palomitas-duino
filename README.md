@@ -2,16 +2,6 @@
 
 
 
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
@@ -36,7 +26,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][Blog completo do projeto]]([https://example.com](https://well-mole-06f.notion.site/Palomitas-8b5f4de0619e4411ba64e886034f62ae))
+[Blog completo do projeto](https://well-mole-06f.notion.site/Palomitas-8b5f4de0619e4411ba64e886034f62ae)
 
 O carrinho de pipoca traz tantas lembranças! Desde aquele cheirinho de um domingo à tarde de cinema com a família ou até mesmo aquela felicidade ao encontrar um deles na saída da escola.
 
@@ -74,10 +64,8 @@ O projeto consiste na integração entre uma pipoqueira elétrica que prepara os
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
+
 
 [license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/daniel-salles-b0b1361a5/
-[product-screenshot]: images/screenshot.png

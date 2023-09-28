@@ -39,7 +39,7 @@ O projeto consiste na integração entre uma pipoqueira elétrica que prepara os
 
 
 ### Ferramentas
-
+![Diagrama de estados](https://github.com/Martoto/Firmware-Palomitas-duino/blob/main/palomita_flowchart.jpg?raw=true)
 * [Python](https://nextjs.org/)
 * [Arduino](https://www.arduino.cc/reference/en/)
 * [Altium](https://www.altium.com/) 
